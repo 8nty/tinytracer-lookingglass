@@ -73,6 +73,8 @@ function doRequest() {
     var taskType = document.querySelector('input[name="task"]:checked').value;
     var IP = document.getElementsByName("ip")[0].value;
 
+    document.getElementsByName("output")[0].innerHTML = "Please wait...";
+
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", handleResponse);
     oReq.open("GET", "/api/task/" + taskType + "/" + IP);
