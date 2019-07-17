@@ -1,0 +1,7 @@
+{
+	"tasks": {
+		"mtr6": "mtr -6zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2 | perl -pe 's/^(HOST: ([^ ]+))/\" \" x length($1)/gei'",
+		"traceroute6": "traceroute -A -q5 -w 2 -6 -m 50 {{TARGET}} 2> /dev/null",
+		"ping6": "ping6 -c 10 -i 0.2 -t 255 {{TARGET}} 2>&1"
+	}
+}
