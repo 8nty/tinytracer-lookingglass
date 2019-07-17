@@ -18,5 +18,6 @@
     "info": {
         "title": "Lasagna.dev Ltd Looking Glass",
         "asn": "AS208590"
-    }
+    },
+    "debug": false
 }

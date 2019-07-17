@@ -81,5 +81,5 @@ def do_task(task_name, ip):
 
 
 if __name__ == "__main__":
-    app.debug = True
+    app.debug = config["debug"]
     app.run(host="0.0.0.0")
