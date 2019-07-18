@@ -1,5 +1,4 @@
 import re
-import os
 import json
 import subprocess
 from flask import Flask, jsonify, render_template
@@ -76,6 +75,12 @@ def do_task(task_name, ip):
     cmd = config["tasks"][task_name][f"cmd{ip_type}"].replace("{{TARGET}}", ip)
     cmd_out = subprocess.run(cmd, shell=True, capture_output=True)
 
+    # Return stderr if stdout is empty
+    if not cmd_out.stdout:
+        response = {"success": False, "result": cmd_out.stderr.decode()}
+        return jsonify(response)
+
+    # Return stdout with a success
     response = {"success": True, "result": cmd_out.stdout.decode()}
     return jsonify(response)
 
