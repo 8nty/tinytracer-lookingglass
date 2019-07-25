@@ -49,12 +49,14 @@
 
 <form>
     <p></p>
+    <select>
     {% for task in tasks %}
     <div>
         <input type="radio" id="{{ task }}" name="task" value="{{ task }}">
         <label for="{{ task }}">{{ task }}</label>
     </div>
     {% endfor %}
+    </select>
     <br>
     <input type="text" id="ip" name="ip" placeholder="Your IP goes here"\>
     <br>
@@ -67,30 +69,20 @@
 <pre><code id="output" name="output"><noscript>Please enable javascript to use this tool, or use the API if you don't want to use javascript.</noscript></code></pre>
 
 <script type="text/javascript">
-function handleResponse () {
-    console.log(this.responseText);
-    var jsonResponse = JSON.parse(this.responseText);
+const output = document.getElementById("output");
+const form = document.getElementById("form");
 
-    // XSS risk?
-    if (jsonResponse["success"] != true) {
-        document.getElementsByName("output")[0].innerHTML = this.responseText;
+async function doRequest() {
+    const formData = Object.fromEntries(new FormData(form));
+    output.textContent = "Please wait...";
+
+    const jsonResponse = await fetch("/api/task/" + formData.task + "/" + formData.ip).then(x => x.json());
+
+    if (jsonResponse.success) {
+        output.textContent = jsonResponse.result;
+    } else {
+        output.textContent = JSON.stringify(jsonResponse, null, 2);
     }
-    else
-    {
-        document.getElementsByName("output")[0].innerHTML = jsonResponse["result"].replace("\n", "<br>");
-    }
-}
-
-function doRequest() {
-    var taskType = document.querySelector('input[name="task"]:checked').value;
-    var IP = document.getElementsByName("ip")[0].value;
-
-    document.getElementsByName("output")[0].innerHTML = "Please wait...";
-
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", handleResponse);
-    oReq.open("GET", "/api/task/" + taskType + "/" + IP);
-    oReq.send();
 }
 </script>
 
