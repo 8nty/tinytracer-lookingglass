@@ -49,14 +49,12 @@
 
 <form>
     <p></p>
-    <select>
     {% for task in tasks %}
     <div>
         <input type="radio" id="{{ task }}" name="task" value="{{ task }}">
         <label for="{{ task }}">{{ task }}</label>
     </div>
     {% endfor %}
-    </select>
     <br>
     <input type="text" id="ip" name="ip" placeholder="Your IP goes here"\>
     <br>
