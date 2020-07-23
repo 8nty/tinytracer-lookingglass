@@ -74,7 +74,7 @@ async function doRequest() {
     const formData = Object.fromEntries(new FormData(form));
     output.textContent = "Please wait...";
 
-    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command + "/" + formData.ip).then(x => x.json());
+    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command.replace(" ", "/") + "/" + formData.ip).then(x => x.json());
 
     if ((jsonResponse.status === "success") || (jsonResponse.status === "failed")) {
         output.textContent = jsonResponse.data.output.join("\n");
