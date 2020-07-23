@@ -66,13 +66,16 @@ def list_info():
     return jsonify(config["info"])
 
 
-@app.route("/.well-known/looking-glass/v1/<string:task_name>/<string:ip>")
+@app.route("/.well-known/looking-glass/v1/<path:task_name>/<string:ip>")
 def do_task(task_name, ip):
     # Check IP protocol and if it's invalid or not
     ip_type = check_ip(ip)
     if not ip_type:
         response = {"status": "error", "message": "Invalid IP address"}
         return jsonify(response), 400
+
+    # Convert slashes in command names to spaces for multi word stuff (for RFC8522 compliance)
+    task_name = task_name.replace("/", " ")
 
     # Check if command exists or not
     if task_name not in config["commands"]:
