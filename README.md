@@ -7,10 +7,10 @@ Configuration is done through `config.json`, the `commands` section is compatibl
 This code is mostly compliant with [RFC8522 Looking Glass Command Set](https://tools.ietf.org/html/rfc8522), things it lacks include:
 
 - Multiple device (referred to as router in the RFC) support
-- Query Parameters (planned to be supported)
-- `.well-known/looking-glass/v1/routers` (planned to be supported)
-- `.well-known/looking-glass/v1/routers/{number}` (planned to be supported)
-- Router field in results (planned to be supported)
+- Query Parameters
+- `.well-known/looking-glass/v1/routers`
+- `.well-known/looking-glass/v1/routers/{number}`
+- Router field in results
 
 ## Try it out
 
