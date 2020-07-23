@@ -1,8 +1,8 @@
 {
     "commands": {
         "mtr": {
-            "cmd4": "mtr -4zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2 | perl -pe 's/^(HOST: ([^ ]+))/\" \" x length($1)/gei'",
-            "cmd6": "mtr -6zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2 | perl -pe 's/^(HOST: ([^ ]+))/\" \" x length($1)/gei'",
+            "cmd4": "mtr -4zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2",
+            "cmd6": "mtr -6zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2",
             "description": "Trace route to destination host using mtr"
         },
         "traceroute": {
