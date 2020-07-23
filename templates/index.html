@@ -47,7 +47,7 @@
 <h1>{{ info["title"] }}</h1>
 <i><h2><a href="https://bgp.he.net/{{ info["asn"] }}">{{ info["asn"] }}</a></h2></i>
 
-<form id="form">
+<form id="form" onsubmit="event.preventDefault(); doRequest()">
     <p></p>
     {% for command in commands %}
     <div>
@@ -60,7 +60,7 @@
     <br>
     <br>
     <div>
-        <button type="button" onClick="doRequest()">Submit</button>
+        <input type="submit" value="Submit"\>
     </div>
 </form>
 
