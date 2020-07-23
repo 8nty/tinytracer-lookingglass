@@ -1,25 +1,29 @@
 {
-    "tasks": {
+    "commands": {
         "mtr": {
-            "cmd4": "mtr -4zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2",
-            "cmd6": "mtr -6zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2"
+            "cmd4": "mtr -4zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2 | perl -pe 's/^(HOST: ([^ ]+))/\" \" x length($1)/gei'",
+            "cmd6": "mtr -6zboLDRSNBAWVGJMXI -rwc10 -i 0.2 -m 50 {{TARGET}} 2> /dev/null | tail -n+2 | perl -pe 's/^(HOST: ([^ ]+))/\" \" x length($1)/gei'",
+            "description": "Trace route to destination host using mtr"
         },
         "traceroute": {
             "cmd4": "traceroute -A -q5 -w 2 -4 -m 50 {{TARGET}} 2> /dev/null",
-            "cmd6": "traceroute -A -q5 -w 2 -6 -m 50 {{TARGET}} 2> /dev/null"
+            "cmd6": "traceroute -A -q5 -w 2 -6 -m 50 {{TARGET}} 2> /dev/null",
+            "description": "Trace route to destination host using traceroute for Linux"
         },
         "ping": {
             "cmd4": "ping -c 10 -i 0.2 -t 255 {{TARGET}} 2>&1",
-            "cmd6": "ping6 -c 10 -i 0.2 -t 255 {{TARGET}} 2>&1"
+            "cmd6": "ping6 -c 10 -i 0.2 -t 255 {{TARGET}} 2>&1",
+            "description": "Ping a destination host"
         }
     },
     "capabilities": {
         "ipv4": true,
-        "ipv6": false
+        "ipv6": true
     },
     "info": {
         "title": "Company Name Looking Glass",
         "asn": "AS000000"
     },
+    "host": "https://lg.example.com/",
     "debug": false
 }

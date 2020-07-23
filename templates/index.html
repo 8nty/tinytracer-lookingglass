@@ -49,10 +49,10 @@
 
 <form id="form">
     <p></p>
-    {% for task in tasks %}
+    {% for command in commands %}
     <div>
-        <input type="radio" id="{{ task }}" name="task" value="{{ task }}">
-        <label for="{{ task }}">{{ task }}</label>
+        <input type="radio" id="{{ command }}" name="command" value="{{ command }}">
+        <label for="{{ command }}">{{ command }}</label>
     </div>
     {% endfor %}
     <br>
@@ -74,10 +74,10 @@ async function doRequest() {
     const formData = Object.fromEntries(new FormData(form));
     output.textContent = "Please wait...";
 
-    const jsonResponse = await fetch("/api/task/" + formData.task + "/" + formData.ip).then(x => x.json());
+    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command + "/" + formData.ip).then(x => x.json());
 
-    if (jsonResponse.success) {
-        output.textContent = jsonResponse.result;
+    if ((jsonResponse.status === "success") || (jsonResponse.status === "failed")) {
+        output.textContent = jsonResponse.data.output.join("\n");
     } else {
         output.textContent = JSON.stringify(jsonResponse, null, 2);
     }
