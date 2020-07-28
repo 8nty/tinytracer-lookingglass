@@ -22,7 +22,7 @@
     },
     "info": {
         "title": "Company Name Looking Glass",
-        "asn": "AS000000"
+        "blurb": "<b>ASN:</b> <a href=\"https://bgp.tools/as/000000\">AS000000</a><br><b>Location:</b> Utopia<br><b>Test IPv4:</b> 192.0.2.1<br><b>Test IPv6:</b> 2001:db8::<br><b>Test files:</b> <a href=\"/testfiles/25MB.test\">25MB</a> <a href=\"/testfiles/50MB.test\">50MB</a> <a href=\"/testfiles/100MB.test\">100MB</a>"
     },
     "host": "https://lg.example.com/",
     "debug": false,

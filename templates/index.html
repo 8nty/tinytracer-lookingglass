@@ -34,7 +34,7 @@
 
         a,
         a:visited {
-            color: white;
+            color: #50f148;
         }
 
         .output {
@@ -45,7 +45,14 @@
 <body style="font-family: 'Fira Sans', sans-serif;">
 <br>
 <h1>{{ info["title"] }}</h1>
-<i><h2><a href="https://bgp.he.net/{{ info["asn"] }}">{{ info["asn"] }}</a></h2></i>
+
+<h3>Network Information</h3>
+
+<p style="line-height: 1.5">
+{{ info["blurb"]|safe }}
+</p>
+
+<h3>Network Tests</h3>
 
 <form id="form" onsubmit="event.preventDefault(); doRequest()">
     <p></p>
@@ -86,6 +93,6 @@ async function doRequest() {
 
 </body>
 <footer>
-  <p>This Looking Glass runs on <a href="https://gitlab.com/a/TinyTracer">TinyTracer</a>, an AGPLv3 software.</p>
+  <p>This Looking Glass runs on <a href="https://gitlab.com/a/TinyTracer">TinyTracer</a>, an AGPLv3 software that is (mostly) <a href="https://tools.ietf.org/html/rfc8522">RFC8522</a> compliant.</p>
 </footer>
 </html>
