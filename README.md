@@ -2,7 +2,7 @@
 
 Small looking glass tool using Flask and python3.6+, designed for both IPv4 and IPv6. Only a single device/router is supported per instance at this time.
 
-![TinyTracer in action](https://lasagna.cat/i/oxovn97k.png)
+[![TinyTracer in action](https://lasagna.cat/t/soxovn97k.png)](https://lasagna.cat/i/oxovn97k.png)
 
 ## Try it out
 
