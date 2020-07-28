@@ -1,0 +1,12 @@
+[Unit]
+Description=Tinytracer gunicorn
+After=network.target
+
+[Service]
+User=tinytracer
+Group=www-data
+WorkingDirectory=/home/tinytracer/tinytracer
+ExecStart=gunicorn --workers 2 --bind unix:tinytracer.sock -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target
