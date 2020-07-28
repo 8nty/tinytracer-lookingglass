@@ -32,7 +32,12 @@ def check_ip(ip):
 
 @app.route("/")
 def serve_static():
-    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    # Only display IP if it's not disabled in config
+    ip = (
+        request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+        if config.get("showip", True)
+        else ""
+    )
     return render_template(
         "index.html", info=config["info"], commands=config["commands"], ip=ip
     )
