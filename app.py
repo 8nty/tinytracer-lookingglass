@@ -3,7 +3,7 @@ import json
 import time
 from datetime import datetime
 import subprocess
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 re_ipv4 = re.compile(
@@ -32,8 +32,9 @@ def check_ip(ip):
 
 @app.route("/")
 def serve_static():
+    ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     return render_template(
-        "index.html", info=config["info"], commands=config["commands"]
+        "index.html", info=config["info"], commands=config["commands"], ip=ip
     )
 
 
