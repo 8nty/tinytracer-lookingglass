@@ -70,7 +70,7 @@
     <p></p>
     {% for command in commands %}
     <div>
-        <input type="radio" id="{{ command }}" name="command" value="{{ command }}">
+        <input type="radio" id="{{ command }}" name="command" value="{{ command }}" {% if command == checked_cmd %}checked{% endif %}>
         <label for="{{ command }}">{{ command }}</label>
     </div>
     {% endfor %}

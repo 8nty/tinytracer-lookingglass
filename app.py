@@ -38,8 +38,18 @@ def serve_static():
         if config.get("showip", True)
         else ""
     )
+
+    # mmm hacky code
+    ip = request.args.get("ip", ip)
+    first_command = list(config["commands"].keys())[0]
+    checked_cmd = request.args.get("cmd", first_command)
+
     return render_template(
-        "index.html", info=config["info"], commands=config["commands"], ip=ip
+        "index.html",
+        info=config["info"],
+        commands=config["commands"],
+        ip=ip,
+        checked_cmd=checked_cmd,
     )
 
 
