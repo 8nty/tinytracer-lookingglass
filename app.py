@@ -97,8 +97,9 @@ def list_info():
     return jsonify(config["info"])
 
 
+@app.route("/.well-known/looking-glass/v1/<path:task_name>/")
 @app.route("/.well-known/looking-glass/v1/<path:task_name>/<string:ip>")
-def do_task(task_name, ip):
+def do_task(task_name, ip=None):
     # Check IP protocol and if it's invalid or not
     ip_type = check_ip(ip)
     if not ip_type:

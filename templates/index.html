@@ -103,7 +103,7 @@ async function doRequest() {
         window.history.pushState({}, null, "?ip=" + formData.ip + "&cmd=" + formData.command);
     }
 
-    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command.replace(" ", "/") + "/" + formData.ip).then(x => x.json());
+    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command.replace(/ /g, "/") + "/" + formData.ip).then(x => x.json());
 
     if ((jsonResponse.status === "success") || (jsonResponse.status === "failed")) {
         output.textContent = jsonResponse.data.output.join("\n");
