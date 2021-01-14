@@ -26,5 +26,6 @@
     },
     "host": "https://lg.example.com/",
     "debug": false,
-    "showip": true
+    "showip": true,
+    "trustproxy": false
 }
