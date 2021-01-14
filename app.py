@@ -1,4 +1,4 @@
-import re
+import ipaddress
 import json
 import time
 from datetime import datetime
@@ -6,35 +6,50 @@ import subprocess
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
-re_ipv4 = re.compile(
-    r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}"
-    r"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-)
-# Not even gonna bother splitting this into multiple lines
-# From https://stackoverflow.com/a/17871737/3286892
-# by David M. Syzdek (https://stackoverflow.com/users/903194/david-m-syzdek)
-re_ipv6 = re.compile(
-    r"(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))"
-)
 
 with open("config.json") as f:
     config = json.load(f)
 
 
 def check_ip(ip):
-    if re_ipv4.fullmatch(ip):
-        return 4
-    elif re_ipv6.fullmatch(ip):
-        return 6
+    try:
+        address = ipaddress.ip_address(ip)
+        return address.version
+    except ValueError:
+        return False
 
-    return False
+
+def return_origin_ip(request):
+    request_remote = request.remote_addr
+    request_xrip = request.environ.get("HTTP_X_REAL_IP")
+    request_xfwf = request.environ.get("HTTP_X_FORWARDED_FOR")
+    request_cfcip = request.environ.get("HTTP_CF_CONNECTING_IP")
+
+    if request_xfwf:
+        request_xfwf = request_xfwf.split(",")[0]
+
+    if not config.get("trustproxy", False):
+        return request_remote
+    else:
+        request_proxied_remote = request_remote
+
+        if request_xrip:
+            request_proxied_remote = request_xrip
+
+        if request_xfwf and request_xfwf != request_xrip:
+            request_proxied_remote = request_xfwf
+
+        if request_cfcip:
+            request_proxied_remote = request_cfcip
+
+        return request_proxied_remote
 
 
 @app.route("/")
 def serve_static():
     # Only display IP if it's not disabled in config
     ip = (
-        request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+        return_origin_ip(request)
         if config.get("showip", True)
         else ""
     )
