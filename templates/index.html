@@ -100,15 +100,20 @@ async function doRequest() {
     output.textContent = "Please wait...";
 
     if (window.history.pushState) {
-        window.history.pushState({}, null, "?ip=" + formData.ip + "&cmd=" + formData.command);
+        window.history.pushState({}, null, `?ip=${formData.ip}&cmd=${formData.command}`);
     }
 
-    const jsonResponse = await fetch("/.well-known/looking-glass/v1/" + formData.command.replace(/ /g, "/") + "/" + formData.ip).then(x => x.json());
+    try {
+        const resp = await fetch(`/.well-known/looking-glass/v1/${formData.command.replace(/ /g, "/")}/${formData.ip}`);
+        const jsonResponse = await resp.json();
 
-    if ((jsonResponse.status === "success") || (jsonResponse.status === "failed")) {
-        output.textContent = jsonResponse.data.output.join("\n");
-    } else {
-        output.textContent = JSON.stringify(jsonResponse, null, 2);
+        if ((jsonResponse.status === "success") || (jsonResponse.status === "failed")) {
+            output.textContent = jsonResponse.data.output.join("\n");
+        } else {
+            output.textContent = JSON.stringify(jsonResponse, null, 2);
+        }
+    } catch (e) {
+        output.textContent = "API request failed.";
     }
 }
 </script>
