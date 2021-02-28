@@ -143,7 +143,7 @@ def do_task(task_name, ip=None):
         response = {
             "status": "fail",
             "data": {
-                "output": cmd_out.stderr.decode().strip().split("\n"),
+                "output": cmd_out.stderr.decode().split("\n"),
                 "format": "text/plain",
                 "performed_at": end_str,
                 "runtime": end_time - start_time,
@@ -155,7 +155,7 @@ def do_task(task_name, ip=None):
     response = {
         "status": "success",
         "data": {
-            "output": cmd_out.stdout.decode().strip().split("\n"),
+            "output": cmd_out.stdout.decode().split("\n"),
             "format": "text/plain",
             "performed_at": end_str,
             "runtime": end_time - start_time,
